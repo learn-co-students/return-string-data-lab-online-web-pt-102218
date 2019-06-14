@@ -1,5 +1,4 @@
 class ProductsController < ApplicationController
-
   def index
     @products = Product.all
   end
@@ -11,12 +10,11 @@ class ProductsController < ApplicationController
 
   def description
     get_product
-    render plain: @product.description
+    render plain: @product.description.to_s
   end
 
   def inventory
     get_product
-    # byebug
     render plain: @product.in_stock?.to_s
   end
 
@@ -27,6 +25,6 @@ class ProductsController < ApplicationController
   end
 
   def get_product
-    @product = Product.find_by(params[:id])
+    @product = Product.find(params[:id])
   end
 end
