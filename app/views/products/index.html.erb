@@ -1,16 +1,23 @@
 <% @products.each do |product| %> 
  <h1> <%= product.id %> <%= product.name %> </h1> 
-  <div> <%= truncate product.description %> </div> 
-  <button class="js-phantom" data-id="<%= post.id %>">More...</button>
+  <div id="<%=product.id%>" > <%= truncate product.description %> </div> 
+  <% if product.inventory > 0 %> 
+  <h2> Available </h2> 
+  <% else %> 
+   <h2> Sold Out </h2> 
+  <% end %> 
+  <button class="js-phantom" data-id="<%= product.id %>">More Info...</button>
+  <% end %> 
   <script type="text/javascript" charset="utf-8">
 $(function () {
   $(".js-phantom").on('click', function() {
     // get the id from the data attribute
-    let id = $(this).data("id");
+    var id = $(this).data("id");
     $.get("/products/" + id + "/description", function(data) {
-      return 
+      
+      $("#" +id).text(data)
     });
   });
 });
 </script>
-<% end %> 
+
