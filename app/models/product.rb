@@ -4,4 +4,8 @@ class Product < ActiveRecord::Base
 
   attr_accessor :description, :inventory
 
+  def in_stock?
+    self.inventory > 0
+  end
+  
 end
