@@ -1,1 +1,37 @@
+<ul>
+    <% @products.each do |product|   %>
+        <li> 
+            <h5> <%= product.name %> </h5>
+            <p id="detail_<%= product.id %>">  </p>
+            
+            <button data-id="<%= product.id %>" name="<%= product.id %>" class='more_info'>More Info</button>
+        </li>
+    <% end %>
+</ul>
 
+<script>
+
+Array.from(document.querySelectorAll('.more_info')).forEach((product)=> {
+product.addEventListener('click',function(e){
+    console.log(e.target.name)
+    fetch(`/inventory/?id=${e.target.name}`)
+    .then((res)=>res.json())
+    .then((inventory)=> {
+        //let desc=document.querySelector(`#${e.target.name}`).innerHTML
+        inventory=='true' ? document.getElementById(`detail_${e.target.name}`).innerHTML='Avalible' : document.getElementById(`detail_${e.target.name}`).innerHTML='Sold Out'
+        //e.target.innerHTML=inventory
+    } )
+    fetch(`/description/?id=${e.target.name}`)
+    .then((res)=>res.text())
+    .then((desc)=>{
+        console.log(desc)
+        document.getElementById(`detail_${e.target.name}`).innerHTML+=("<br>"+desc)
+        })
+    })
+    
+    
+    
+})
+
+
+</script>
